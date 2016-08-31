@@ -1,2 +1,12 @@
-<h1>Institutions#index</h1>
-<p>Find me in app/views/institutions/index.html.erb</p>
+<% if @institutions.any? %>
+	<h1>All the institutions</h1>
+	<ul>
+		<% @institutions.each do |institution| %>
+			<li><%= link_to institution.name, institution_path(institution) %></li>
+		<% end %>
+	</ul>	
+<% else %>
+	<h2>There are no institutions here!</h2>
+	<p>Please add one...</p>
+	<p><%= link_to 'Add an institution', new_institution_path %></p>
+<% end %>

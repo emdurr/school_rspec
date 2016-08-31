@@ -1,2 +1,14 @@
-<h1>Institutions#show</h1>
-<p>Find me in app/views/institutions/show.html.erb</p>
+<h1><%= @institution.name %></h1>
+<ul>
+	<li><%= "Discipline: #{@institution.discipline}" %></li>
+	<li><%= "Founded: #{@institution.founded}" %></li>
+	<li><%= "Accepting Applications: #{@institution.accepting_applications}" %></li>
+</ul>
+
+<hr>
+
+<%= link_to 'Edit', edit_institution_path(@institution) %> || 
+<%= link_to 'Delete', institution_path(@institution), method: :delete, data: {confirm: 'Really Delete?'} %> ||
+
+<hr>
+<%= link_to 'All Institutions', institutions_path %>

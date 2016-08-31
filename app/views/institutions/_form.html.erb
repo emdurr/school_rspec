@@ -1,0 +1,27 @@
+<div class="row">
+	<div class="forms col s12 b-town">
+		<div class="in_forms">
+			<%= form_for @institution do |f| %>	
+				<%= f.label :name %>
+				<%= f.text_field :name %>
+				<br>
+				<%= f.label :discipline %>
+				<%= f.text_field :discipline %>
+				<br>
+				<div>
+					<%= f.label :founded %>
+					<%= f.text_field :founded %>
+				</div>
+				<div>
+					<%= f.label :accepting_applications %>
+					<%= f.select :accepting_applications, [true, false] %>
+				</div>
+				<br>
+				<%= f.submit :class => 'btn-small #eeeeee grey lighten-3' %>
+			<% end %>	
+		</div>
+	</div>
+</div>
+				
+				
+				
