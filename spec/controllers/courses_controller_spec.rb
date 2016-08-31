@@ -37,7 +37,7 @@ RSpec.describe CoursesController, type: :controller do
     end
 
     it "returns http success" do
-      get :show, :institution_id => @institution.id, :id => @course.id
+      get :show, institution_id: @institution.id, id: @course.id
       expect(response).to have_http_status(:success)
     end
 

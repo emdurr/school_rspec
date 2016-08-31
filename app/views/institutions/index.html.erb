@@ -1,10 +1,20 @@
 <% if @institutions.any? %>
-	<h1>All the institutions</h1>
-	<ul>
-		<% @institutions.each do |institution| %>
-			<li><%= link_to institution.name, institution_path(institution) %></li>
-		<% end %>
-	</ul>	
+	<div class="container">
+		<h1>All the institutions</h1>
+		<div class="row">
+			<div class="col s12">
+				<div class="card">	
+					<ul>
+						<% @institutions.each do |institution| %>
+							<li><%= link_to institution.name, institution_path(institution) %></li>
+						<% end %>
+					</ul>	
+				</div>
+			</div>
+		</div>
+		<p><%= link_to 'Add an institution', new_institution_path %></p>
+	</div>
+	
 <% else %>
 	<h2>There are no institutions here!</h2>
 	<p>Please add one...</p>

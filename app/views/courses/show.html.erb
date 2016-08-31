@@ -1,2 +1,16 @@
-<h1>Courses#show</h1>
-<p>Find me in app/views/courses/show.html.erb</p>
+<div class="container">	
+	<h1><%= "#{@course.number}:  #{@course.title}" %></h1>
+	<ul>
+		<li><%= "Description of course: #{@course.description}" %></li>
+		<li><%= "Day(s) of class: #{@course.day_of_the_week}" %></li>
+		<li><%= "Time of class: #{@course.time_of_day}" %></li>
+	</ul>	
+
+
+	<%= link_to 'Edit', edit_institution_course_path(@institution, @course) %> || 
+	<%= link_to 'Delete', institution_course_path(@institution, @course), method: :delete, data: {confirm: 'Really Delete?'} %> ||
+	<%= link_to "Back to #{@institution.name}", institution_path(@institution) %>
+	<hr>
+	<%= link_to 'All Institutions', institutions_path %>
+
+</div>

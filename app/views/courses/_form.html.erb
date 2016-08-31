@@ -1,0 +1,30 @@
+<div class="row">
+	<div class="forms col s12 b-town">
+		<div class="in_forms">
+			<%= form_for [@institution, @course] do |f| %>	
+				<%= f.label :title %>
+				<%= f.text_field :title %>
+				<br>
+				<%= f.label :number %>
+				<%= f.text_field :number %>
+				<br>
+				<%= f.label :description %>
+				<%= f.text_field :description %>
+				<br>
+				<div>
+					<%= f.label :day_of_the_week %>
+					<%= f.select :day_of_the_week, ['M', 'T', 'W', 'Th', 'F'], {}, class: 'browser-default' %>
+				</div>
+				<div>
+					<%= f.label :time_of_day %>
+					<%= f.text_field :time_of_day %>
+				</div>
+				<br>
+				<%= f.submit :class => 'btn-small #eeeeee grey lighten-3' %>
+			<% end %>	
+		</div>
+	</div>
+</div>
+				
+				
+				

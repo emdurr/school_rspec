@@ -1,0 +1,29 @@
+@import 'materialize';
+@import 'courses';
+
+.bb-town {
+	border-bottom: 1px solid red;
+}
+
+.b-town {
+	border: 1px solid black;
+	border-radius: 10px;
+}
+
+.in_forms {
+	padding: 10px;
+}
+
+a {
+	color: black;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+main {
+  flex: 1 0 auto;
+}
