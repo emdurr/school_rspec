@@ -11,7 +11,7 @@ RSpec.describe Institution, type: :model do
 	describe "#name_founded" do
 		it "returns string" do
 			institution = Institution.create(name: 'devpoint', discipline: 'coding', founded: '2013')
-			expect(institution.name_founded).to eq("devpoint was founded 2013")
+			expect(institution.name_founded).to eq("#{institution.name} was founded #{institution.founded}")
 		end
 
 		it "checks variables" do
