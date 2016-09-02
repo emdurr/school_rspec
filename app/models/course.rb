@@ -1,5 +1,6 @@
 class Course < ApplicationRecord
   belongs_to :institution
+  has_many :lessons
   validates_presence_of :title, :number, :description, :day_of_the_week, :time_of_day
 
   def title_day

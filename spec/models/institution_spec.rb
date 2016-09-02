@@ -9,15 +9,16 @@ RSpec.describe Institution, type: :model do
 	end
 
 	describe "#name_founded" do
-		it "returns string" do
-			institution = Institution.create(name: 'devpoint', discipline: 'coding', founded: '2013')
-			expect(institution.name_founded).to eq("#{institution.name} was founded #{institution.founded}")
+		before(:each) do
+			@institution = FactoryGirl.create(:institution)
+		end
+		it "returns string" do	
+			expect(@institution.name_founded).to eq("#{@institution.name} was founded #{@institution.founded}")
 		end
 
 		it "checks variables" do
-			institution = Institution.create(name: 'devpoint', discipline: 'coding', founded: '2013')
-			expect(institution.name).to eq("#{institution.name}")
-			expect(institution.founded).to eq("#{institution.founded}")
+			expect(@institution.name).to eq("#{@institution.name}")
+			expect(@institution.founded).to eq("#{@institution.founded}")
 		end
 	end
 

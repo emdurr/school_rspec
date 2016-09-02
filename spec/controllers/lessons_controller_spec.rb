@@ -22,23 +22,18 @@ RSpec.describe LessonsController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # Lesson. As you add validations to Lesson, be sure to
   # adjust the attributes here as well.
-  let(:resource) { FactoryGirl.create :institution}
-  let(:institution) { Institution.find resource.institution_id}
-  let(:resource1) { FactoryGirl.create :course }
-  let(:course) { Course.find resource1.course_id}
-
-  let(:valid_attributes) {
-    { name: 'ruby' }
-    { subject: 'ruby' }
-    { content: 'the basics of ruby' }
-    { course_id: course }
-  }
+  let(:institution) { FactoryGirl.create :institution}
+  let(:course) { FactoryGirl.create :course, institution_id: institution.id }
+  let(:lesson) { FactoryGirl.create :lesson, course_id: course.id}
 
   let(:invalid_attributes) {
     { name: '' }
-    { course_id: course }
   }
 
+  before(:each) do
+    institution
+    course
+  end
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # LessonsController. Be sure to keep this updated too.
@@ -46,63 +41,63 @@ RSpec.describe LessonsController, type: :controller do
 
   describe "GET #index" do
     it "assigns all lessons as @lessons" do
-      lesson = Lesson.create! valid_attributes
-      get :index, params: {}
+      lesson
+      get :index, params: { institution_id: institution.id, course_id: course.id }
       expect(assigns(:lessons)).to eq([lesson])
     end
   end
 
   describe "GET #show" do
     it "assigns the requested lesson as @lesson" do
-      lesson = Lesson.create! valid_attributes
-      get :show, params: {id: lesson.to_param}
+      lesson
+      get :show, params: { institution_id: institution.id, course_id: course.id, id: lesson.to_param}
       expect(assigns(:lesson)).to eq(lesson)
     end
   end
 
   describe "GET #new" do
     it "assigns a new lesson as @lesson" do
-      get :new, params: {}
+      get :new, params: { institution_id: institution.id, course_id: course.id }
       expect(assigns(:lesson)).to be_a_new(Lesson)
     end
   end
 
   describe "GET #edit" do
     it "assigns the requested lesson as @lesson" do
-      lesson = Lesson.create! valid_attributes
-      get :edit, params: {id: lesson.to_param}
+      lesson
+      get :edit, params: {institution_id: institution.id, course_id: course.id, id: lesson.to_param}
       expect(assigns(:lesson)).to eq(lesson)
     end
   end
 
   describe "POST #create" do
     context "with valid params" do
+      before(:each) do
+        @lesson_params = {name: 'Ruby', subject: 'Ruby', content: 'Ruby stuff', course_id: course.id }
+        post :create, institution_id: institution.id, course_id: course.id, lesson: @lesson_params
+      end
       it "creates a new Lesson" do
-        expect {
-          post :create, params: {lesson: valid_attributes}
-        }.to change(Lesson, :count).by(1)
+        expect(Lesson.count).to eq(1)
       end
 
-      it "assigns a newly created lesson as @lesson" do
-        post :create, params: {lesson: valid_attributes}
+      it "assigns a newly created lesson as @lesson" do       
         expect(assigns(:lesson)).to be_a(Lesson)
         expect(assigns(:lesson)).to be_persisted
       end
 
       it "redirects to the created lesson" do
-        post :create, params: {lesson: valid_attributes}
-        expect(response).to redirect_to(Lesson.last)
+        expect(response).to redirect_to(institution_course_lesson_path(institution, course, Lesson.first.id))
       end
     end
 
     context "with invalid params" do
       it "assigns a newly created but unsaved lesson as @lesson" do
-        post :create, params: {lesson: invalid_attributes}
+        post :create, params: {institution_id: institution.id, course_id: course.id, lesson: invalid_attributes}
         expect(assigns(:lesson)).to be_a_new(Lesson)
       end
 
       it "re-renders the 'new' template" do
-        post :create, params: {lesson: invalid_attributes}
+        post :create, params: {institution_id: institution.id, course_id: course.id, lesson: invalid_attributes}
         expect(response).to render_template("new")
       end
     end
@@ -115,52 +110,53 @@ RSpec.describe LessonsController, type: :controller do
       }
 
       it "updates the requested lesson" do
-        lesson = Lesson.create! valid_attributes
-        put :update, params: {id: lesson.to_param, lesson: new_attributes}
-        lesson.reload
-        skip("Add assertions for updated state")
+        lesson
+        put :update, params: {institution_id: institution.id, course_id: course.id, id: lesson.to_param, lesson: new_attributes}
+        expect(lesson.reload.name).to eq('javascript')
       end
 
       it "assigns the requested lesson as @lesson" do
-        lesson = Lesson.create! valid_attributes
-        put :update, params: {id: lesson.to_param, lesson: valid_attributes}
+        lesson
+        @lesson_params = {name: 'Ruby', subject: 'Ruby', content: 'Ruby stuff', course_id: course.id }
+        put :update, params: {institution_id: institution.id, course_id: course.id, id: lesson.to_param, lesson: @lesson_params}
         expect(assigns(:lesson)).to eq(lesson)
       end
 
       it "redirects to the lesson" do
-        lesson = Lesson.create! valid_attributes
-        put :update, params: {id: lesson.to_param, lesson: valid_attributes}
-        expect(response).to redirect_to(lesson)
+        lesson
+        @lesson_params = {name: 'Ruby', subject: 'Ruby', content: 'Ruby stuff', course_id: course.id }
+        put :update, params: {institution_id: institution.id, course_id: course.id, id: lesson.to_param, lesson: @lesson_params}
+        expect(response).to redirect_to(institution_course_lesson_path(institution, course, lesson))
       end
     end
 
     context "with invalid params" do
       it "assigns the lesson as @lesson" do
-        lesson = Lesson.create! valid_attributes
-        put :update, params: {id: lesson.to_param, lesson: invalid_attributes}
+        lesson
+        put :update, params: {institution_id: institution.id, course_id: course.id, id: lesson.to_param, lesson: invalid_attributes}
         expect(assigns(:lesson)).to eq(lesson)
       end
 
       it "re-renders the 'edit' template" do
-        lesson = Lesson.create! valid_attributes
-        put :update, params: {id: lesson.to_param, lesson: invalid_attributes}
-        expect(response).to render_template("edit")
+        lesson
+        put :update, params: {institution_id: institution.id, course_id: course.id, id: lesson.to_param, lesson: invalid_attributes}
+        expect(response).to render_template(:edit)
       end
     end
   end
 
   describe "DELETE #destroy" do
     it "destroys the requested lesson" do
-      lesson = Lesson.create! valid_attributes
+      lesson
       expect {
-        delete :destroy, params: {id: lesson.to_param}
+        delete :destroy, params: {institution_id: institution.id, course_id: course.id, id: lesson.to_param}
       }.to change(Lesson, :count).by(-1)
     end
 
     it "redirects to the lessons list" do
-      lesson = Lesson.create! valid_attributes
-      delete :destroy, params: {id: lesson.to_param}
-      expect(response).to redirect_to(lessons_url)
+      lesson
+      delete :destroy, params: {institution_id: institution.id, course_id: course.id, id: lesson.to_param}
+      expect(response).to redirect_to(institution_course_path(institution, course))
     end
   end
 

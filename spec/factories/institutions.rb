@@ -7,7 +7,7 @@ FactoryGirl.define do
 
     factory :institution_with_course do
     	after(:create) do |institution|
-    		create(course, institution: institution)
+    		create(:course, institution: institution)
     	end
     end
   end
